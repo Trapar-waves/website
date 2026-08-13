@@ -5,7 +5,7 @@
 
 <div align="center">
 
-[![Deploy](https://img.shields.io/github/actions/workflow/status/trapar-waves/website/deploy.yml?label=deploy&logo=github-pages&logoColor=white)](https://trapar-waves.org)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/trapar-waves/website/deploy.yml?label=deploy&logo=github-pages&logoColor=white)](https://trapar-waves.github.io/website)
 [![Astro](https://img.shields.io/badge/Astro-7.2-FF5D01?logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -91,7 +91,7 @@ src/
 
 ## Deployment
 
-Pushing to the `main` branch triggers an automated deployment to [GitHub Pages](https://trapar-waves.org) via the `deploy.yml` workflow:
+Pushing to the `main` branch triggers an automated deployment to [GitHub Pages](https://trapar-waves.github.io/website) via the `deploy.yml` workflow:
 
 1. **Build** — checks out the repo, installs pnpm, runs `pnpm build`
 2. **Upload** — uploads the `dist/` artifact
@@ -105,7 +105,7 @@ This website showcases templates from the [Trapar Waves](https://github.com/trap
 pnpm create trapar-waves
 ```
 
-Or browse the catalog at [trapar-waves.org](https://trapar-waves.org).
+Or browse the catalog at [trapar-waves.org](https://trapar-waves.github.io/website).
 
 ## License
 
