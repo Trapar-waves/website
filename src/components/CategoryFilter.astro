@@ -1,0 +1,58 @@
+---
+import { categories } from '../data/templates';
+
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+---
+
+<div class="flex flex-wrap gap-2" id="category-filter">
+  {categories.map((category) => (
+    <button
+      data-category={category.id}
+      class:list={[
+        'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+        category.id === 'all'
+          ? 'bg-gray-900 text-white'
+          : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+      ]}
+    >
+      {isZh ? category.labelZh : category.label}
+    </button>
+  ))}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filter = document.getElementById('category-filter');
+    const cards = document.querySelectorAll('[data-template-category]');
+
+    filter?.addEventListener('click', (e) => {
+      const button = (e.target as HTMLElement).closest('button');
+      if (!button) return;
+
+      const category = button.dataset.category;
+
+      // Update active button styles
+      filter.querySelectorAll('button').forEach((btn) => {
+        btn.classList.remove('bg-gray-900', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      button.classList.remove('bg-gray-100', 'text-gray-700');
+      button.classList.add('bg-gray-900', 'text-white');
+
+      // Filter cards
+      cards.forEach((card) => {
+        const cardCategory = (card as HTMLElement).dataset.templateCategory;
+        if (category === 'all' || cardCategory === category) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

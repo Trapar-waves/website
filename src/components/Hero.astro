@@ -1,0 +1,30 @@
+---
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+---
+
+<section class="border-b border-gray-200 bg-gray-50">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+      {isZh ? 'Trapar Waves 模板' : 'Trapar Waves Templates'}
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-gray-600">
+      {isZh
+        ? '现代项目模板集合，涵盖 React、Vue、CLI 和 LLM 开发'
+        : 'Modern project templates for React, Vue, CLI, and LLM development'
+      }
+    </p>
+    <div class="mt-8">
+      <a
+        href="#templates"
+        class="inline-flex items-center rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+      >
+        {isZh ? '浏览模板' : 'Browse Templates'}
+      </a>
+    </div>
+  </div>
+</section>

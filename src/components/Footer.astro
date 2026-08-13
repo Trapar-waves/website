@@ -1,0 +1,36 @@
+---
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+---
+
+<footer class="border-t border-gray-200 bg-gray-50">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <p class="text-sm text-gray-500">
+        © {new Date().getFullYear()} Trapar Waves. {isZh ? '保留所有权利。' : 'All rights reserved.'}
+      </p>
+      <nav class="flex gap-6">
+        <a
+          href="https://github.com/Trapar-waves"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.npmjs.com/org/trapar-waves"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          npm
+        </a>
+      </nav>
+    </div>
+  </div>
+</footer>

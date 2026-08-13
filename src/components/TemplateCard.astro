@@ -1,0 +1,84 @@
+---
+import type { Template } from '../types/template';
+
+interface Props {
+  template: Template;
+  lang?: 'en' | 'zh';
+}
+
+const { template, lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+---
+
+<article
+  data-template-category={template.category}
+  class="group rounded-xl border border-gray-200 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+>
+  <div class="flex items-start justify-between">
+    <div>
+      <h3 class="text-lg font-semibold">
+        <a
+          href={`https://github.com/Trapar-waves/${template.githubRepo}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-gray-600 transition-colors"
+        >
+          {template.name}
+        </a>
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">{template.packageName}</p>
+    </div>
+    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+      {template.category.toUpperCase()}
+    </span>
+  </div>
+
+  <p class="mt-4 text-gray-600">
+    {isZh ? template.descriptionZh : template.description}
+  </p>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    {template.techStack.map((tech) => (
+      <span class="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-700">
+        {tech}
+      </span>
+    ))}
+  </div>
+
+  <div class="mt-6 flex items-center gap-4 border-t border-gray-100 pt-4 text-sm text-gray-500">
+    {template.githubStars !== undefined && (
+      <span class="flex items-center gap-1">
+        ⭐ {template.githubStars.toLocaleString()}
+      </span>
+    )}
+    {template.npmDownloads !== undefined && (
+      <span class="flex items-center gap-1">
+        📥 {template.npmDownloads.toLocaleString()}
+      </span>
+    )}
+    {template.lastUpdated && (
+      <span class="flex items-center gap-1">
+        🕐 {template.lastUpdated}
+      </span>
+    )}
+  </div>
+
+  <div class="mt-4 flex gap-3">
+    <a
+      href={`https://github.com/Trapar-waves/${template.githubRepo}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors"
+    >
+      GitHub →
+    </a>
+    <a
+      href={`https://www.npmjs.com/package/${template.npmPackage}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors"
+    >
+      npm →
+    </a>
+  </div>
+</article>

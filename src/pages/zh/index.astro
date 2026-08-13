@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import TemplateCard from '../../components/TemplateCard.astro';
+import Footer from '../../components/Footer.astro';
+import { templates } from '../../data/templates';
+import { fetchGitHubStats } from '../../lib/github';
+import { fetchNpmDownloads } from '../../lib/npm';
+
+// Fetch live data at build time
+const templatesWithData = await Promise.all(
+  templates.map(async (template) => {
+    const [githubStats, npmStats] = await Promise.all([
+      fetchGitHubStats(template.githubRepo),
+      fetchNpmDownloads(template.npmPackage),
+    ]);
+
+    return {
+      ...template,
+      githubStars: githubStats?.stars,
+      npmDownloads: npmStats?.downloads,
+      lastUpdated: githubStats?.lastUpdated,
+    };
+  })
+);
+---
+
+<Layout title="Trapar Waves 模板" lang="zh">
+  <Header lang="zh" />
+  <Hero lang="zh" />
+
+  <main id="templates" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <CategoryFilter lang="zh" />
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {templatesWithData.map((template) => (
+        <TemplateCard template={template} lang="zh" />
+      ))}
+    </div>
+  </main>
+
+  <Footer lang="zh" />
+</Layout>

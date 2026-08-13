@@ -1,0 +1,39 @@
+---
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+---
+
+<header class="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <a href={isZh ? '/zh' : '/'} class="flex items-center gap-3">
+      <img
+        src="https://github.com/Trapar-waves.png"
+        alt="Trapar Waves"
+        class="h-8 w-8 rounded-full"
+        loading="eager"
+      />
+      <span class="text-xl font-bold">Trapar Waves</span>
+    </a>
+
+    <nav class="flex items-center gap-6">
+      <a
+        href="https://github.com/Trapar-waves"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-gray-600 hover:text-gray-900 transition-colors"
+      >
+        GitHub
+      </a>
+      <a
+        href={isZh ? '/' : '/zh'}
+        class="text-gray-600 hover:text-gray-900 transition-colors"
+      >
+        {isZh ? 'English' : '中文'}
+      </a>
+    </nav>
+  </div>
+</header>
