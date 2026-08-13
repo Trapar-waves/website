@@ -1,5 +1,5 @@
 ---
-import { categories } from '../data/templates';
+import { categories, CATEGORY_ICONS } from '../data/templates';
 
 interface Props {
   lang?: 'en' | 'zh';
@@ -7,52 +7,114 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
+
+const categoryColorMap: Record<string, string> = {
+  all: 'bg-gray-900 text-white',
+  react: 'bg-blue-500 text-white',
+  '3d': 'bg-purple-500 text-white',
+  vue: 'bg-emerald-500 text-white',
+  cli: 'bg-amber-500 text-white',
+  llm: 'bg-pink-500 text-white',
+};
+
+const categoryInactiveMap: Record<string, string> = {
+  all: 'border-gray-300 text-gray-700 hover:bg-gray-100',
+  react: 'border-blue-300 text-blue-700 hover:bg-blue-50',
+  '3d': 'border-purple-300 text-purple-700 hover:bg-purple-50',
+  vue: 'border-emerald-300 text-emerald-700 hover:bg-emerald-50',
+  cli: 'border-amber-300 text-amber-700 hover:bg-amber-50',
+  llm: 'border-pink-300 text-pink-700 hover:bg-pink-50',
+};
 ---
 
-<div class="flex flex-wrap gap-2" id="category-filter">
-  {categories.map((category) => (
-    <button
-      data-category={category.id}
-      class:list={[
-        'rounded-full px-4 py-2 text-sm font-medium transition-colors',
-        category.id === 'all'
-          ? 'bg-gray-900 text-white'
-          : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
-      ]}
-    >
-      {isZh ? category.labelZh : category.label}
-    </button>
-  ))}
+<div class="overflow-x-auto hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+  <div class="flex gap-2 sm:flex-wrap" id="category-filter">
+    {categories.map((category) => (
+      <button
+        data-category={category.id}
+        data-active-classes={categoryColorMap[category.id]}
+        data-inactive-classes={categoryInactiveMap[category.id]}
+        class:list={[
+          'flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 whitespace-nowrap',
+          category.id === 'all'
+            ? categoryColorMap[category.id] + ' border-transparent'
+            : 'border-transparent ' + categoryInactiveMap[category.id],
+        ]}
+      >
+        {category.id !== 'all' && (
+          <span class="category-icon" data-icon={CATEGORY_ICONS[category.id]}></span>
+        )}
+        {isZh ? category.labelZh : category.label}
+      </button>
+    ))}
+  </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filter = document.getElementById('category-filter');
-    const cards = document.querySelectorAll('[data-template-category]');
+  import { createElement, icons } from 'lucide';
 
-    filter?.addEventListener('click', (e) => {
-      const button = (e.target as HTMLElement).closest('button');
-      if (!button) return;
+  const iconNameMap: Record<string, string> = {
+    atom: 'Atom',
+    box: 'Box',
+    leaf: 'Leaf',
+    terminal: 'Terminal',
+    brain: 'Brain',
+  };
 
-      const category = button.dataset.category;
+  // Render icons
+  document.querySelectorAll('.category-icon').forEach((el) => {
+    const iconName = (el as HTMLElement).dataset.icon;
+    if (iconName && iconNameMap[iconName]) {
+      const iconData = icons[iconNameMap[iconName] as keyof typeof icons];
+      if (iconData) {
+        const svg = createElement(iconData);
+        svg.classList.add('w-4', 'h-4');
+        el.appendChild(svg);
+      }
+    }
+  });
 
-      // Update active button styles
-      filter.querySelectorAll('button').forEach((btn) => {
-        btn.classList.remove('bg-gray-900', 'text-white');
-        btn.classList.add('bg-gray-100', 'text-gray-700');
-      });
-      button.classList.remove('bg-gray-100', 'text-gray-700');
-      button.classList.add('bg-gray-900', 'text-white');
+  // Category filter logic
+  const filter = document.getElementById('category-filter');
+  const cards = document.querySelectorAll('[data-template-category]');
 
-      // Filter cards
-      cards.forEach((card) => {
-        const cardCategory = (card as HTMLElement).dataset.templateCategory;
-        if (category === 'all' || cardCategory === category) {
-          (card as HTMLElement).style.display = '';
-        } else {
+  filter?.addEventListener('click', (e) => {
+    const button = (e.target as HTMLElement).closest('button');
+    if (!button) return;
+
+    const category = button.dataset.category;
+    const activeClasses = button.dataset.activeClasses || '';
+    const inactiveClasses = button.dataset.inactiveClasses || '';
+
+    // Update active button styles
+    filter.querySelectorAll('button').forEach((btn) => {
+      const btnActive = btn.dataset.activeClasses || '';
+      const btnInactive = btn.dataset.inactiveClasses || '';
+      btnActive.split(' ').forEach((c) => { if (c) btn.classList.remove(c); });
+      btnInactive.split(' ').forEach((c) => { if (c) btn.classList.add(c); });
+      btn.classList.remove('border-transparent');
+      btn.classList.add('border-transparent');
+    });
+
+    activeClasses.split(' ').forEach((c) => { if (c) button.classList.add(c); });
+    inactiveClasses.split(' ').forEach((c) => { if (c) button.classList.remove(c); });
+
+    // Filter cards with animation
+    cards.forEach((card) => {
+      const cardCategory = (card as HTMLElement).dataset.templateCategory;
+      if (category === 'all' || cardCategory === category) {
+        (card as HTMLElement).style.display = '';
+        (card as HTMLElement).style.opacity = '0';
+        requestAnimationFrame(() => {
+          (card as HTMLElement).style.transition = 'opacity 0.3s ease';
+          (card as HTMLElement).style.opacity = '1';
+        });
+      } else {
+        (card as HTMLElement).style.opacity = '0';
+        setTimeout(() => {
           (card as HTMLElement).style.display = 'none';
-        }
-      });
+        }, 300);
+      }
     });
   });
 </script>
