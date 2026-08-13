@@ -2,4 +2,47 @@
 
 @theme {
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Brand colors */
+  --color-primary: #6366f1;
+  --color-primary-light: #818cf8;
+  --color-accent-pink: #f472b6;
+  --color-accent-green: #34d399;
+  --color-accent-amber: #fbbf24;
+
+  /* Category colors */
+  --color-cat-react: #3b82f6;
+  --color-cat-3d: #8b5cf6;
+  --color-cat-vue: #10b981;
+  --color-cat-cli: #f59e0b;
+  --color-cat-llm: #ec4899;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Safe areas for mobile */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide scrollbar for category filter */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }

@@ -132,3 +132,27 @@ export const categories = [
   { id: 'cli', label: 'CLI', labelZh: 'CLI' },
   { id: 'llm', label: 'LLM', labelZh: 'LLM' },
 ] as const;
+
+export const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string; glow: string }> = {
+  react: { bg: 'bg-blue-500', text: 'text-blue-500', border: 'border-blue-500', glow: 'shadow-blue-500/20' },
+  '3d': { bg: 'bg-purple-500', text: 'text-purple-500', border: 'border-purple-500', glow: 'shadow-purple-500/20' },
+  vue: { bg: 'bg-emerald-500', text: 'text-emerald-500', border: 'border-emerald-500', glow: 'shadow-emerald-500/20' },
+  cli: { bg: 'bg-amber-500', text: 'text-amber-500', border: 'border-amber-500', glow: 'shadow-amber-500/20' },
+  llm: { bg: 'bg-pink-500', text: 'text-pink-500', border: 'border-pink-500', glow: 'shadow-pink-500/20' },
+};
+
+export const CATEGORY_LIGHT_COLORS: Record<string, string> = {
+  react: 'bg-blue-50 text-blue-700',
+  '3d': 'bg-purple-50 text-purple-700',
+  vue: 'bg-emerald-50 text-emerald-700',
+  cli: 'bg-amber-50 text-amber-700',
+  llm: 'bg-pink-50 text-pink-700',
+};
+
+export const CATEGORY_ICONS: Record<string, string> = {
+  react: 'atom',
+  '3d': 'box',
+  vue: 'leaf',
+  cli: 'terminal',
+  llm: 'brain',
+};
