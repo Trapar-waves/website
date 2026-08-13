@@ -25,11 +25,16 @@ const templatesWithData = await Promise.all(
     };
   })
 );
+
+// Calculate totals for Hero stats
+const totalTemplates = templates.length;
+const totalStars = templatesWithData.reduce((sum, t) => sum + (t.githubStars ?? 0), 0);
+const totalDownloads = templatesWithData.reduce((sum, t) => sum + (t.npmDownloads ?? 0), 0);
 ---
 
 <Layout title="Trapar Waves Templates">
   <Header lang="en" />
-  <Hero lang="en" />
+  <Hero lang="en" totalTemplates={totalTemplates} totalStars={totalStars} totalDownloads={totalDownloads} />
 
   <main id="templates" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <div class="mb-8">

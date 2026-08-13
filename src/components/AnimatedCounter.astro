@@ -1,0 +1,63 @@
+---
+interface Props {
+  target: number;
+  suffix?: string;
+  class?: string;
+}
+
+const { target, suffix = '', class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={['tabular-nums', className]}
+  data-counter-target={target}
+  data-counter-suffix={suffix}
+>
+  0{suffix}
+</span>
+
+<script>
+  function formatNumber(num: number): string {
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + 'M';
+    if (num >= 1_000) return (num / 1_000).toFixed(1) + 'k';
+    return num.toString();
+  }
+
+  function animateCounter(el: HTMLElement) {
+    const target = parseInt(el.dataset.counterTarget || '0', 10);
+    const suffix = el.dataset.counterSuffix || '';
+    const duration = 1500;
+    const start = performance.now();
+
+    function update(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      el.textContent = formatNumber(current) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Observe counters and animate on scroll into view
+  const counters = document.querySelectorAll('[data-counter-target]');
+  const counterObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target as HTMLElement);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  counters.forEach((el) => counterObserver.observe(el));
+</script>
