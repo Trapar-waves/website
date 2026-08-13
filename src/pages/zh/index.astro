@@ -5,31 +5,10 @@ import Hero from '../../components/Hero.astro';
 import CategoryFilter from '../../components/CategoryFilter.astro';
 import TemplateCard from '../../components/TemplateCard.astro';
 import Footer from '../../components/Footer.astro';
-import { templates } from '../../data/templates';
-import { fetchGitHubStats } from '../../lib/github';
-import { fetchNpmDownloads } from '../../lib/npm';
+import { fetchTemplatesWithData, calculateHeroStats } from '../../lib/data';
 
-// Fetch live data at build time
-const templatesWithData = await Promise.all(
-  templates.map(async (template) => {
-    const [githubStats, npmStats] = await Promise.all([
-      fetchGitHubStats(template.githubRepo),
-      fetchNpmDownloads(template.npmPackage),
-    ]);
-
-    return {
-      ...template,
-      githubStars: githubStats?.stars,
-      npmDownloads: npmStats?.downloads,
-      lastUpdated: githubStats?.lastUpdated,
-    };
-  })
-);
-
-// Calculate totals for Hero stats
-const totalTemplates = templates.length;
-const totalStars = templatesWithData.reduce((sum, t) => sum + (t.githubStars ?? 0), 0);
-const totalDownloads = templatesWithData.reduce((sum, t) => sum + (t.npmDownloads ?? 0), 0);
+const templatesWithData = await fetchTemplatesWithData();
+const { totalTemplates, totalStars, totalDownloads } = calculateHeroStats(templatesWithData);
 ---
 
 <Layout title="Trapar Waves 模板" lang="zh">
@@ -41,7 +20,7 @@ const totalDownloads = templatesWithData.reduce((sum, t) => sum + (t.npmDownload
       <CategoryFilter lang="zh" />
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {templatesWithData.map((template) => (
         <TemplateCard template={template} lang="zh" />
       ))}

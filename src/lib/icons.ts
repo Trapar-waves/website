@@ -1,12 +1,26 @@
-import { createElement, icons } from 'lucide';
+import Atom from 'lucide/dist/esm/icons/atom';
+import Box from 'lucide/dist/esm/icons/box';
+import Leaf from 'lucide/dist/esm/icons/leaf';
+import Terminal from 'lucide/dist/esm/icons/terminal';
+import Brain from 'lucide/dist/esm/icons/brain';
+import Star from 'lucide/dist/esm/icons/star';
+import Download from 'lucide/dist/esm/icons/download';
+import Clock from 'lucide/dist/esm/icons/clock';
 
-// Base icon map for the 5 template categories (lowercase → PascalCase lucide key)
-const CATEGORY_ICON_MAP: Record<string, string> = {
-  atom: 'Atom',
-  box: 'Box',
-  leaf: 'Leaf',
-  terminal: 'Terminal',
-  brain: 'Brain',
+type IconNode = [string, Record<string, string>, [string, Record<string, string>, string][]][];
+
+const CATEGORY_ICON_MAP: Record<string, IconNode> = {
+  atom: Atom,
+  box: Box,
+  leaf: Leaf,
+  terminal: Terminal,
+  brain: Brain,
+};
+
+const STAT_ICON_MAP: Record<string, IconNode> = {
+  star: Star,
+  download: Download,
+  clock: Clock,
 };
 
 /**
@@ -20,18 +34,51 @@ export function renderIcons(
   extraMap?: Record<string, string>,
   onRender?: (iconName: string, svg: SVGSVGElement) => void,
 ): void {
-  const nameMap = extraMap ? { ...CATEGORY_ICON_MAP, ...extraMap } : CATEGORY_ICON_MAP;
+  const allIcons: Record<string, IconNode> = { ...CATEGORY_ICON_MAP };
+  if (extraMap) {
+    for (const [key, iconName] of Object.entries(extraMap)) {
+      if (iconName in STAT_ICON_MAP) {
+        allIcons[key] = STAT_ICON_MAP[iconName];
+      }
+    }
+  }
 
   document.querySelectorAll(selector).forEach((el) => {
     const iconName = (el as HTMLElement).dataset.icon;
-    if (iconName && nameMap[iconName]) {
-      const iconData = icons[nameMap[iconName] as keyof typeof icons];
-      if (iconData) {
-        const svg = createElement(iconData);
-        svg.classList.add('w-4', 'h-4');
-        onRender?.(iconName, svg);
-        el.appendChild(svg);
+    if (iconName && allIcons[iconName]) {
+      const iconNode = allIcons[iconName];
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '16');
+      svg.setAttribute('height', '16');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      svg.classList.add('w-4', 'h-4');
+
+      // iconNode is array of [tag, attrs, children?]
+      for (const node of iconNode) {
+        const [tag, attrs, children] = node;
+        const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (const [k, v] of Object.entries(attrs)) {
+          el.setAttribute(k, v);
+        }
+        if (children) {
+          for (const child of children) {
+            const childEl = document.createElementNS('http://www.w3.org/2000/svg', child[0]);
+            for (const [k, v] of Object.entries(child[1])) {
+              childEl.setAttribute(k, v);
+            }
+            el.appendChild(childEl);
+          }
+        }
+        svg.appendChild(el);
       }
+
+      onRender?.(iconName, svg);
+      (el as HTMLElement).appendChild(svg);
     }
   });
 }

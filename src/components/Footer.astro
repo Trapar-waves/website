@@ -7,7 +7,7 @@ const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
 ---
 
-<footer class="relative overflow-hidden border-t border-gray-200/50 bg-gradient-to-b from-gray-50 to-white">
+<footer class="relative overflow-hidden" style="border-top: 1px solid var(--color-surface-border); background: linear-gradient(to bottom, var(--color-surface-alt), var(--color-surface));">
   <!-- Decorative background -->
   <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
     <div class="absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-primary/5 blur-3xl"></div>
@@ -24,10 +24,12 @@ const isZh = lang === 'zh';
             alt="Trapar Waves"
             class="h-8 w-8 rounded-full"
             loading="lazy"
+            width="32"
+            height="32"
           />
-          <span class="text-lg font-bold text-gray-900">Trapar Waves</span>
+          <span class="text-lg font-bold">Trapar Waves</span>
         </div>
-        <p class="mt-3 text-sm text-gray-600 max-w-xs">
+        <p class="mt-3 text-sm max-w-xs" style="color: var(--color-text-secondary);">
           {isZh
             ? '现代项目模板集合，帮助开发者快速启动高质量项目。'
             : 'Modern project templates to help developers bootstrap high-quality projects.'
@@ -35,15 +37,21 @@ const isZh = lang === 'zh';
         </p>
       </div>
 
-      <!-- Links -->
+      <!-- Quick Start -->
       <div>
-        <h3 class="text-sm font-semibold text-gray-900">{isZh ? '链接' : 'Links'}</h3>
+        <h3 class="text-sm font-semibold">{isZh ? '快速开始' : 'Quick Start'}</h3>
+        <div class="mt-4">
+          <code class="block rounded-lg px-4 py-3 text-xs font-mono" style="background-color: var(--color-surface-alt); color: var(--color-text-secondary); border: 1px solid var(--color-surface-border);">
+            <span style="color: var(--color-text-muted);">$</span> pnpm create trapar-waves
+          </code>
+        </div>
         <nav aria-label={isZh ? '页脚链接' : 'Footer links'} class="mt-4 flex flex-col gap-3">
           <a
             href="https://github.com/Trapar-waves"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors motion-reduce:transition-none min-h-[44px]"
+            class="flex items-center gap-2 text-sm transition-colors motion-reduce:transition-none hover:opacity-80 min-h-[44px]"
+            style="color: var(--color-text-secondary);"
           >
             <svg class="h-5 w-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -54,7 +62,8 @@ const isZh = lang === 'zh';
             href="https://www.npmjs.com/org/trapar-waves"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors motion-reduce:transition-none min-h-[44px]"
+            class="flex items-center gap-2 text-sm transition-colors motion-reduce:transition-none hover:opacity-80 min-h-[44px]"
+            style="color: var(--color-text-secondary);"
           >
             <svg class="h-5 w-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.01c.667 0 .667.648.667 1.458v7.43c0 .81 0 1.458-.667 1.458h-.01l-9.552.01c-.74 0-.74-.66-.74-1.47V9.63c0-.564.553-1.026 1.117-1.026h2.52c.564 0 1.026-.462 1.026-1.026V5.323c0-.564-.462-1.026-1.026-1.026H5.13c-.564 0-1.026.462-1.026 1.026v.01c0 .564.462 1.026 1.026 1.026z" />
@@ -70,7 +79,8 @@ const isZh = lang === 'zh';
           id="back-to-top"
           type="button"
           aria-label={isZh ? '回到顶部' : 'Back to top'}
-          class="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm hover:shadow-md hover:border-primary hover:text-primary transition-all duration-200 motion-reduce:transition-none active:scale-[0.98] motion-reduce:active:scale-100 min-h-[44px]"
+          class="flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium shadow-sm transition-all duration-200 motion-reduce:transition-none active:scale-[0.98] motion-reduce:active:scale-100 min-h-[44px]"
+          style="background-color: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-surface-border);"
         >
           <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -81,8 +91,8 @@ const isZh = lang === 'zh';
     </div>
 
     <!-- Copyright -->
-    <div class="mt-10 border-t border-gray-200/50 pt-6">
-      <p class="text-center text-sm text-gray-500">
+    <div class="mt-10 pt-6" style="border-top: 1px solid var(--color-surface-border);">
+      <p class="text-center text-sm" style="color: var(--color-text-muted);">
         &copy; {new Date().getFullYear()} Trapar Waves. {isZh ? '保留所有权利。' : 'All rights reserved.'}
       </p>
     </div>

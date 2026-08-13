@@ -8,9 +8,9 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
 
-// Active state: use 700-shade backgrounds for WCAG AA contrast (4.5:1 with white text)
+// Active state: use 700-shade backgrounds for WCAG AA contrast
 const categoryActiveMap: Record<string, string> = {
-  all: 'bg-gray-900 text-white',
+  all: 'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
   react: 'bg-blue-700 text-white',
   '3d': 'bg-purple-700 text-white',
   vue: 'bg-emerald-700 text-white',
@@ -18,14 +18,14 @@ const categoryActiveMap: Record<string, string> = {
   llm: 'bg-pink-700 text-white',
 };
 
-// Inactive state: reuse CATEGORY_LIGHT_COLORS for consistency with card badges
+// Inactive state
 const categoryInactiveMap: Record<string, string> = {
-  all: 'border-gray-300 text-gray-700 hover:bg-gray-100',
-  react: `border-blue-300 ${CATEGORY_LIGHT_COLORS['react']} hover:bg-blue-100`,
-  '3d': `border-purple-300 ${CATEGORY_LIGHT_COLORS['3d']} hover:bg-purple-100`,
-  vue: `border-emerald-300 ${CATEGORY_LIGHT_COLORS['vue']} hover:bg-emerald-100`,
-  cli: `border-amber-300 ${CATEGORY_LIGHT_COLORS['cli']} hover:bg-amber-100`,
-  llm: `border-pink-300 ${CATEGORY_LIGHT_COLORS['llm']} hover:bg-pink-100`,
+  all: 'text-gray-700 dark:text-gray-300',
+  react: CATEGORY_LIGHT_COLORS['react'],
+  '3d': CATEGORY_LIGHT_COLORS['3d'],
+  vue: CATEGORY_LIGHT_COLORS['vue'],
+  cli: CATEGORY_LIGHT_COLORS['cli'],
+  llm: CATEGORY_LIGHT_COLORS['llm'],
 };
 ---
 
@@ -38,11 +38,12 @@ const categoryInactiveMap: Record<string, string> = {
         data-inactive-classes={categoryInactiveMap[category.id]}
         aria-pressed={category.id === 'all' ? 'true' : 'false'}
         class:list={[
-          'flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-all duration-200 whitespace-nowrap min-h-[44px]',
+          'flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium transition-all duration-200 whitespace-nowrap min-h-[44px]',
           category.id === 'all'
-            ? categoryActiveMap[category.id] + ' border-transparent'
-            : 'border-transparent ' + categoryInactiveMap[category.id],
+            ? categoryActiveMap[category.id]
+            : categoryInactiveMap[category.id],
         ]}
+        style={category.id !== 'all' ? `border: 1px solid var(--color-surface-border)` : 'border: 1px solid transparent'}
       >
         {category.id !== 'all' && (
           <span class="category-icon" data-icon={CATEGORY_ICONS[category.id]}></span>
@@ -78,13 +79,13 @@ const categoryInactiveMap: Record<string, string> = {
       const btnInactive = btn.dataset.inactiveClasses || '';
       btnActive.split(' ').forEach((c) => { if (c) btn.classList.remove(c); });
       btnInactive.split(' ').forEach((c) => { if (c) btn.classList.add(c); });
-      btn.classList.remove('border-transparent');
-      btn.classList.add('border-transparent');
+      btn.style.borderColor = 'var(--color-surface-border)';
       btn.setAttribute('aria-pressed', 'false');
     });
 
     activeClasses.split(' ').forEach((c) => { if (c) button.classList.add(c); });
     inactiveClasses.split(' ').forEach((c) => { if (c) button.classList.remove(c); });
+    button.style.borderColor = 'transparent';
     button.setAttribute('aria-pressed', 'true');
 
     // Filter cards
@@ -114,7 +115,6 @@ const categoryInactiveMap: Record<string, string> = {
             el.removeEventListener('transitionend', handler);
           };
           el.addEventListener('transitionend', handler);
-          // Fallback if transitionend doesn't fire (e.g., opacity already 0)
           setTimeout(() => {
             if (el.style.opacity === '0') {
               handler();
@@ -123,5 +123,19 @@ const categoryInactiveMap: Record<string, string> = {
         }
       }
     });
+
+    // Update URL hash
+    if (category && category !== 'all') {
+      history.replaceState(null, '', `#${category}`);
+    } else {
+      history.replaceState(null, '', window.location.pathname);
+    }
   });
+
+  // Read hash on load
+  const hash = window.location.hash.slice(1);
+  if (hash) {
+    const btn = filter?.querySelector(`button[data-category="${hash}"]`) as HTMLButtonElement;
+    if (btn) btn.click();
+  }
 </script>
