@@ -5,31 +5,73 @@ import { ClientRouter } from 'astro:transitions';
 interface Props {
   title: string;
   lang?: 'en' | 'zh';
+  description?: string;
+  image?: string;
 }
 
-const { title, lang = 'en' } = Astro.props;
+const {
+  title,
+  lang = 'en',
+  description = lang === 'zh'
+    ? '现代项目模板集合，涵盖 React、Vue、CLI 和 LLM 开发，帮助开发者快速启动高质量项目。'
+    : 'Modern project templates for React, Vue, CLI, and LLM development. Bootstrap high-quality projects in seconds.',
+  image = '/og-default.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Trapar Waves - Modern project templates for React, Vue, CLI, and LLM development" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Trapar Waves",
+      "url": Astro.site,
+      "logo": new URL(`${import.meta.env.BASE_URL}/favicon.svg`, Astro.site),
+      "description": description,
+    })} />
+
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="min-h-screen bg-white text-gray-900 font-sans antialiased">
+  <body class="min-h-screen font-sans antialiased" style="background-color: var(--color-surface); color: var(--color-text-primary);">
+    <a href="#templates" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white focus:shadow-lg">
+      {lang === 'zh' ? '跳到内容' : 'Skip to content'}
+    </a>
     <slot />
   </body>
 </html>
 
-<style is:global>
-  html {
-    scroll-behavior: smooth;
-  }
-</style>
+<script is:inline>
+  // Apply theme before paint to prevent flash
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  })();
+</script>

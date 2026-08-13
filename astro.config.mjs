@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   site: 'https://trapar-waves.github.io/website',
+  base: '/website',
   vite: {
     plugins: [tailwindcss()],
   },

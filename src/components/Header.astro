@@ -7,67 +7,108 @@ const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
 ---
 
-<header id="site-header" class="sticky top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-md transition-shadow duration-300 motion-reduce:transition-none">
+<header id="site-header" class="sticky top-0 z-50 backdrop-blur-md transition-shadow duration-300 motion-reduce:transition-none" style="background-color: oklch(from var(--color-surface) l c h / 0.85); border-bottom: 1px solid var(--color-surface-border);">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-    <a href={isZh ? '/zh' : '/'} class="flex items-center gap-3 group">
+    <a href={isZh ? `${import.meta.env.BASE_URL}/zh` : import.meta.env.BASE_URL} class="flex items-center gap-3 group">
       <img
         src="https://github.com/Trapar-waves.png"
         alt="Trapar Waves"
         class="h-8 w-8 rounded-full"
         loading="eager"
+        width="32"
+        height="32"
       />
       <span class="text-xl font-bold">Trapar Waves</span>
       <span aria-hidden="true" class="h-2 w-2 rounded-full bg-gradient-to-br from-primary to-accent-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300 motion-reduce:transition-none"></span>
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-6">
+    <nav class="hidden md:flex items-center gap-5">
       <a
         href="https://github.com/Trapar-waves"
         target="_blank"
         rel="noopener noreferrer"
-        class="relative text-gray-600 hover:text-gray-900 transition-colors motion-reduce:transition-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 motion-reduce:after:transition-none"
+        class="relative text-sm transition-colors motion-reduce:transition-none hover:opacity-80"
+        style="color: var(--color-text-secondary);"
       >
         GitHub
       </a>
       <a
-        href={isZh ? '/' : '/zh'}
-        class="relative text-gray-600 hover:text-gray-900 transition-colors motion-reduce:transition-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 motion-reduce:after:transition-none"
+        href={isZh ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/zh`}
+        class="relative text-sm transition-colors motion-reduce:transition-none hover:opacity-80"
+        style="color: var(--color-text-secondary);"
       >
         {isZh ? 'English' : '中文'}
       </a>
+
+      <!-- Dark mode toggle -->
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label={isZh ? '切换暗色模式' : 'Toggle dark mode'}
+        class="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:opacity-80"
+        style="color: var(--color-text-secondary);"
+      >
+        <svg class="h-4 w-4 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg class="h-4 w-4 moon-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
     </nav>
 
     <!-- Mobile hamburger -->
-    <button
-      id="mobile-menu-toggle"
-      class="md:hidden flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gray-100 transition-colors motion-reduce:transition-none"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-    >
-      <svg id="menu-icon-open" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      <svg id="menu-icon-close" class="w-5 h-5 text-gray-700 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+    <div class="flex md:hidden items-center gap-2">
+      <!-- Mobile dark mode toggle -->
+      <button
+        id="theme-toggle-mobile"
+        type="button"
+        aria-label={isZh ? '切换暗色模式' : 'Toggle dark mode'}
+        class="flex h-11 w-11 items-center justify-center rounded-lg hover:opacity-80 transition-colors"
+        style="color: var(--color-text-secondary);"
+      >
+        <svg class="h-4 w-4 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg class="h-4 w-4 moon-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+
+      <button
+        id="mobile-menu-toggle"
+        class="flex items-center justify-center w-11 h-11 rounded-lg hover:opacity-80 transition-colors motion-reduce:transition-none"
+        style="color: var(--color-text-secondary);"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- Mobile menu drawer -->
-  <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
+  <div id="mobile-menu" class="md:hidden hidden backdrop-blur-md" style="border-top: 1px solid var(--color-surface-border); background-color: oklch(from var(--color-surface) l c h / 0.95);">
     <nav class="flex flex-col px-4 py-4 gap-2">
       <a
         href="https://github.com/Trapar-waves"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2 min-h-[44px] flex items-center"
+        class="text-sm transition-colors motion-reduce:transition-none hover:opacity-80 py-2 min-h-[44px] flex items-center"
+        style="color: var(--color-text-secondary);"
       >
         GitHub
       </a>
       <a
-        href={isZh ? '/' : '/zh'}
-        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2 min-h-[44px] flex items-center"
+        href={isZh ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/zh`}
+        class="text-sm transition-colors motion-reduce:transition-none hover:opacity-80 py-2 min-h-[44px] flex items-center"
+        style="color: var(--color-text-secondary);"
       >
         {isZh ? 'English' : '中文'}
       </a>
@@ -87,7 +128,6 @@ const isZh = lang === 'zh';
     { threshold: 1, rootMargin: '-1px 0px 0px 0px' }
   );
 
-  // Create a sentinel element at the top of the page
   const sentinel = document.createElement('div');
   sentinel.style.height = '1px';
   sentinel.style.position = 'absolute';
@@ -123,17 +163,43 @@ const isZh = lang === 'zh';
     isMenuOpen() ? closeMenu() : openMenu();
   });
 
-  // Close menu on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isMenuOpen()) {
       closeMenu();
     }
   });
 
-  // Close menu on outside click
   document.addEventListener('click', (e) => {
     if (isMenuOpen() && e.target instanceof Node && !toggle?.contains(e.target) && !menu?.contains(e.target)) {
       closeMenu();
     }
+  });
+
+  // Theme toggle
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') ||
+           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+
+  function setTheme(theme: string) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeIcons(theme);
+  }
+
+  function updateThemeIcons(theme: string) {
+    document.querySelectorAll('.sun-icon').forEach(el => el.classList.toggle('hidden', theme === 'dark'));
+    document.querySelectorAll('.moon-icon').forEach(el => el.classList.toggle('hidden', theme === 'light'));
+  }
+
+  // Initialize icons
+  updateThemeIcons(getTheme());
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  });
+
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
   });
 </script>
