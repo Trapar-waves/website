@@ -26,6 +26,13 @@ const { target, suffix = '', class: className = '' } = Astro.props;
   function animateCounter(el: HTMLElement) {
     const target = parseInt(el.dataset.counterTarget || '0', 10);
     const suffix = el.dataset.counterSuffix || '';
+
+    // Respect prefers-reduced-motion: show final value immediately
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = formatNumber(target) + suffix;
+      return;
+    }
+
     const duration = 1500;
     const start = performance.now();
 
