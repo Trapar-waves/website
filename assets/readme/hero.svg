@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="400" viewBox="0 0 1200 400"
+     role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">Trapar Waves Website</title>
+  <desc id="hero-desc">The official showcase for the Trapar Waves template collection — 11 production-ready templates across 5 categories.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c1445"/>
+      <stop offset="50%" stop-color="#1a237e"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#42a5f5" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#42a5f5" stop-opacity="0.03"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#90caf9" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#90caf9" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="400" rx="24" fill="url(#bg)"/>
+
+  <!-- Wave motifs -->
+  <path d="M0 320 Q200 280 400 310 T800 290 T1200 320 V400 H0 Z" fill="url(#wave1)"/>
+  <path d="M0 350 Q300 310 600 340 T1200 330 V400 H0 Z" fill="url(#wave2)"/>
+  <path d="M0 370 Q150 355 300 365 T600 355 T900 370 T1200 360 V400 H0 Z" fill="rgba(255,255,255,0.04)"/>
+
+  <!-- Geometric accents -->
+  <rect x="980" y="48" width="12" height="12" rx="2" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" transform="rotate(45 986 54)"/>
+  <circle cx="1050" cy="80" r="6" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+  <rect x="1100" y="340" width="8" height="8" rx="1.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+  <!-- Left: Title block -->
+  <g transform="translate(64 52)">
+    <!-- Category label -->
+    <rect x="0" y="0" width="138" height="26" rx="13" fill="rgba(66,165,245,0.2)"/>
+    <text x="69" y="17.5" text-anchor="middle"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="12" font-weight="600" fill="#64b5f6"
+          letter-spacing="1.5">TEMPLATE SHOWCASE</text>
+
+    <!-- Project name -->
+    <text x="0" y="68"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="44" font-weight="700" fill="#ffffff"
+          letter-spacing="-0.5">Trapar Waves</text>
+    <text x="0" y="108"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="44" font-weight="700" fill="#ffffff"
+          letter-spacing="-0.5">Website</text>
+
+    <!-- Description -->
+    <text x="0" y="145"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16" fill="rgba(255,255,255,0.7)"
+          letter-spacing="0.2">Production-ready templates for React, Vue, CLI,</text>
+    <text x="0" y="167"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16" fill="rgba(255,255,255,0.7)"
+          letter-spacing="0.2">3D, and LLM development.</text>
+
+    <!-- Terminal command -->
+    <rect x="0" y="192" width="320" height="40" rx="8" fill="rgba(0,0,0,0.35)"/>
+    <text x="14" y="217"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="13.5" fill="rgba(255,255,255,0.4)">$</text>
+    <text x="30" y="217"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+          font-size="13.5" fill="#81d4fa">pnpm create trapar-waves</text>
+
+    <!-- Stats row -->
+    <g transform="translate(0 256)">
+      <text x="0" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="22" font-weight="700" fill="#ffffff">11</text>
+      <text x="30" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="12" fill="rgba(255,255,255,0.5)">Templates</text>
+
+      <circle cx="100" cy="8" r="2.5" fill="rgba(255,255,255,0.2)"/>
+
+      <text x="114" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="22" font-weight="700" fill="#ffffff">5</text>
+      <text x="136" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="12" fill="rgba(255,255,255,0.5)">Categories</text>
+
+      <circle cx="218" cy="8" r="2.5" fill="rgba(255,255,255,0.2)"/>
+
+      <text x="232" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="22" font-weight="700" fill="#ffffff">Astro</text>
+      <text x="272" y="14"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="12" fill="rgba(255,255,255,0.5)">Powered</text>
+    </g>
+  </g>
+
+  <!-- Right: Category cards grid -->
+  <g transform="translate(620 56)">
+    <!-- Card: React -->
+    <g transform="translate(0 0)">
+      <rect width="160" height="76" rx="12" fill="rgba(25,118,210,0.15)" stroke="rgba(25,118,210,0.3)" stroke-width="1"/>
+      <circle cx="24" cy="28" r="12" fill="rgba(25,118,210,0.25)"/>
+      <text x="24" y="33" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="14" fill="#64b5f6">⚛</text>
+      <text x="46" y="33"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="15" font-weight="600" fill="#ffffff">React</text>
+      <text x="24" y="58"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="11.5" fill="rgba(255,255,255,0.45)">4 templates</text>
+    </g>
+
+    <!-- Card: 3D / Geo -->
+    <g transform="translate(176 0)">
+      <rect width="160" height="76" rx="12" fill="rgba(123,31,162,0.15)" stroke="rgba(123,31,162,0.3)" stroke-width="1"/>
+      <circle cx="24" cy="28" r="12" fill="rgba(123,31,162,0.25)"/>
+      <text x="24" y="33" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="14" fill="#ce93d8">◈</text>
+      <text x="46" y="33"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="15" font-weight="600" fill="#ffffff">3D / Geo</text>
+      <text x="24" y="58"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="11.5" fill="rgba(255,255,255,0.45)">2 templates</text>
+    </g>
+
+    <!-- Card: Vue -->
+    <g transform="translate(0 92)">
+      <rect width="160" height="76" rx="12" fill="rgba(46,125,50,0.15)" stroke="rgba(46,125,50,0.3)" stroke-width="1"/>
+      <circle cx="24" cy="28" r="12" fill="rgba(46,125,50,0.25)"/>
+      <text x="24" y="33" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="14" fill="#81c784">◆</text>
+      <text x="46" y="33"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="15" font-weight="600" fill="#ffffff">Vue</text>
+      <text x="24" y="58"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="11.5" fill="rgba(255,255,255,0.45)">1 template</text>
+    </g>
+
+    <!-- Card: CLI -->
+    <g transform="translate(176 92)">
+      <rect width="160" height="76" rx="12" fill="rgba(245,124,0,0.15)" stroke="rgba(245,124,0,0.3)" stroke-width="1"/>
+      <circle cx="24" cy="28" r="12" fill="rgba(245,124,0,0.25)"/>
+      <text x="24" y="33" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="14" fill="#ffb74d">❯_</text>
+      <text x="46" y="33"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="15" font-weight="600" fill="#ffffff">CLI</text>
+      <text x="24" y="58"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="11.5" fill="rgba(255,255,255,0.45)">3 templates</text>
+    </g>
+
+    <!-- Card: LLM -->
+    <g transform="translate(88 184)">
+      <rect width="160" height="76" rx="12" fill="rgba(233,30,99,0.15)" stroke="rgba(233,30,99,0.3)" stroke-width="1"/>
+      <circle cx="24" cy="28" r="12" fill="rgba(233,30,99,0.25)"/>
+      <text x="24" y="33" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="14" fill="#f48fb1">✦</text>
+      <text x="46" y="33"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="15" font-weight="600" fill="#ffffff">LLM</text>
+      <text x="24" y="58"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="11.5" fill="rgba(255,255,255,0.45)">1 template</text>
+    </g>
+  </g>
+
+</svg>
