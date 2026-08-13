@@ -17,7 +17,7 @@ const isZh = lang === 'zh';
         loading="eager"
       />
       <span class="text-xl font-bold">Trapar Waves</span>
-      <span class="h-2 w-2 rounded-full bg-gradient-to-br from-primary to-accent-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300 motion-reduce:transition-none"></span>
+      <span aria-hidden="true" class="h-2 w-2 rounded-full bg-gradient-to-br from-primary to-accent-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300 motion-reduce:transition-none"></span>
     </a>
 
     <!-- Desktop nav -->
@@ -56,18 +56,18 @@ const isZh = lang === 'zh';
 
   <!-- Mobile menu drawer -->
   <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
-    <nav class="flex flex-col px-4 py-4 gap-4">
+    <nav class="flex flex-col px-4 py-4 gap-2">
       <a
         href="https://github.com/Trapar-waves"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2"
+        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2 min-h-[44px] flex items-center"
       >
         GitHub
       </a>
       <a
         href={isZh ? '/' : '/zh'}
-        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2"
+        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2 min-h-[44px] flex items-center"
       >
         {isZh ? 'English' : '中文'}
       </a>

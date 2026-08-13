@@ -54,29 +54,10 @@ const categoryInactiveMap: Record<string, string> = {
 </div>
 
 <script>
-  import { createElement, icons } from 'lucide';
+  import { renderIcons } from '../lib/icons';
 
-  // Map lowercase icon names (from CATEGORY_ICONS) to PascalCase lucide icon keys
-  const iconNameMap: Record<string, string> = {
-    atom: 'Atom',
-    box: 'Box',
-    leaf: 'Leaf',
-    terminal: 'Terminal',
-    brain: 'Brain',
-  };
-
-  // Render icons
-  document.querySelectorAll('.category-icon').forEach((el) => {
-    const iconName = (el as HTMLElement).dataset.icon;
-    if (iconName && iconNameMap[iconName]) {
-      const iconData = icons[iconNameMap[iconName] as keyof typeof icons];
-      if (iconData) {
-        const svg = createElement(iconData);
-        svg.classList.add('w-4', 'h-4');
-        el.appendChild(svg);
-      }
-    }
-  });
+  // Render category icons
+  renderIcons('.category-icon');
 
   // Category filter logic
   const filter = document.getElementById('category-filter');

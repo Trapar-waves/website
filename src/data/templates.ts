@@ -133,12 +133,12 @@ export const categories = [
   { id: 'llm', label: 'LLM', labelZh: 'LLM' },
 ] as const;
 
-export const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string; glow: string }> = {
-  react: { bg: 'bg-blue-500', text: 'text-blue-500', border: 'border-blue-500', glow: 'shadow-blue-500/20' },
-  '3d': { bg: 'bg-purple-500', text: 'text-purple-500', border: 'border-purple-500', glow: 'shadow-purple-500/20' },
-  vue: { bg: 'bg-emerald-500', text: 'text-emerald-500', border: 'border-emerald-500', glow: 'shadow-emerald-500/20' },
-  cli: { bg: 'bg-amber-500', text: 'text-amber-500', border: 'border-amber-500', glow: 'shadow-amber-500/20' },
-  llm: { bg: 'bg-pink-500', text: 'text-pink-500', border: 'border-pink-500', glow: 'shadow-pink-500/20' },
+export const CATEGORY_COLORS: Record<string, { bg: string; text: string; textDark: string; border: string; glow: string }> = {
+  react: { bg: 'bg-blue-500', text: 'text-blue-500', textDark: 'text-blue-600', border: 'border-blue-500', glow: 'shadow-blue-500/20' },
+  '3d': { bg: 'bg-purple-500', text: 'text-purple-500', textDark: 'text-purple-600', border: 'border-purple-500', glow: 'shadow-purple-500/20' },
+  vue: { bg: 'bg-emerald-500', text: 'text-emerald-500', textDark: 'text-emerald-600', border: 'border-emerald-500', glow: 'shadow-emerald-500/20' },
+  cli: { bg: 'bg-amber-500', text: 'text-amber-500', textDark: 'text-amber-600', border: 'border-amber-500', glow: 'shadow-amber-500/20' },
+  llm: { bg: 'bg-pink-500', text: 'text-pink-500', textDark: 'text-pink-600', border: 'border-pink-500', glow: 'shadow-pink-500/20' },
 };
 
 export const CATEGORY_LIGHT_COLORS: Record<string, string> = {
