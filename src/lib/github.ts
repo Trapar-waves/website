@@ -5,11 +5,18 @@ interface GitHubStats {
 
 export async function fetchGitHubStats(repo: string): Promise<GitHubStats | null> {
   try {
+    const headers: Record<string, string> = {
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'trapar-waves-website',
+    };
+
+    const token = typeof process !== 'undefined' ? process.env?.GITHUB_TOKEN : undefined;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     const response = await fetch(`https://api.github.com/repos/Trapar-waves/${repo}`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'trapar-waves-website',
-      },
+      headers,
     });
 
     if (!response.ok) {
