@@ -7,7 +7,7 @@ const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
 ---
 
-<header id="site-header" class="sticky top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-md transition-shadow duration-300">
+<header id="site-header" class="sticky top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-md transition-shadow duration-300 motion-reduce:transition-none">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
     <a href={isZh ? '/zh' : '/'} class="flex items-center gap-3 group">
       <img
@@ -17,7 +17,7 @@ const isZh = lang === 'zh';
         loading="eager"
       />
       <span class="text-xl font-bold">Trapar Waves</span>
-      <span class="h-2 w-2 rounded-full bg-gradient-to-br from-primary to-accent-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+      <span class="h-2 w-2 rounded-full bg-gradient-to-br from-primary to-accent-pink opacity-0 group-hover:opacity-100 transition-opacity duration-300 motion-reduce:transition-none"></span>
     </a>
 
     <!-- Desktop nav -->
@@ -26,13 +26,13 @@ const isZh = lang === 'zh';
         href="https://github.com/Trapar-waves"
         target="_blank"
         rel="noopener noreferrer"
-        class="relative text-gray-600 hover:text-gray-900 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+        class="relative text-gray-600 hover:text-gray-900 transition-colors motion-reduce:transition-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 motion-reduce:after:transition-none"
       >
         GitHub
       </a>
       <a
         href={isZh ? '/' : '/zh'}
-        class="relative text-gray-600 hover:text-gray-900 transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
+        class="relative text-gray-600 hover:text-gray-900 transition-colors motion-reduce:transition-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300 motion-reduce:after:transition-none"
       >
         {isZh ? 'English' : '中文'}
       </a>
@@ -41,8 +41,9 @@ const isZh = lang === 'zh';
     <!-- Mobile hamburger -->
     <button
       id="mobile-menu-toggle"
-      class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+      class="md:hidden flex items-center justify-center w-11 h-11 rounded-lg hover:bg-gray-100 transition-colors motion-reduce:transition-none"
       aria-label="Toggle menu"
+      aria-expanded="false"
     >
       <svg id="menu-icon-open" class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -60,13 +61,13 @@ const isZh = lang === 'zh';
         href="https://github.com/Trapar-waves"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-gray-700 hover:text-primary transition-colors py-2"
+        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2"
       >
         GitHub
       </a>
       <a
         href={isZh ? '/' : '/zh'}
-        class="text-gray-700 hover:text-primary transition-colors py-2"
+        class="text-gray-700 hover:text-primary transition-colors motion-reduce:transition-none py-2"
       >
         {isZh ? 'English' : '中文'}
       </a>
@@ -100,10 +101,39 @@ const isZh = lang === 'zh';
   const iconOpen = document.getElementById('menu-icon-open');
   const iconClose = document.getElementById('menu-icon-close');
 
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    iconOpen?.classList.add('hidden');
+    iconClose?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    iconOpen?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  function isMenuOpen() {
+    return !menu?.classList.contains('hidden');
+  }
+
   toggle?.addEventListener('click', () => {
-    const isOpen = menu?.classList.contains('hidden');
-    menu?.classList.toggle('hidden');
-    iconOpen?.classList.toggle('hidden');
-    iconClose?.classList.toggle('hidden');
+    isMenuOpen() ? closeMenu() : openMenu();
+  });
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen()) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on outside click
+  document.addEventListener('click', (e) => {
+    if (isMenuOpen() && e.target instanceof Node && !toggle?.contains(e.target) && !menu?.contains(e.target)) {
+      closeMenu();
+    }
   });
 </script>
