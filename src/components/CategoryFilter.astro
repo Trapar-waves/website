@@ -1,5 +1,5 @@
 ---
-import { categories, CATEGORY_ICONS } from '../data/templates';
+import { categories, CATEGORY_ICONS, CATEGORY_LIGHT_COLORS } from '../data/templates';
 
 interface Props {
   lang?: 'en' | 'zh';
@@ -8,36 +8,39 @@ interface Props {
 const { lang = 'en' } = Astro.props;
 const isZh = lang === 'zh';
 
-const categoryColorMap: Record<string, string> = {
+// Active state: use 700-shade backgrounds for WCAG AA contrast (4.5:1 with white text)
+const categoryActiveMap: Record<string, string> = {
   all: 'bg-gray-900 text-white',
-  react: 'bg-blue-500 text-white',
-  '3d': 'bg-purple-500 text-white',
-  vue: 'bg-emerald-500 text-white',
-  cli: 'bg-amber-500 text-white',
-  llm: 'bg-pink-500 text-white',
+  react: 'bg-blue-700 text-white',
+  '3d': 'bg-purple-700 text-white',
+  vue: 'bg-emerald-700 text-white',
+  cli: 'bg-amber-700 text-white',
+  llm: 'bg-pink-700 text-white',
 };
 
+// Inactive state: reuse CATEGORY_LIGHT_COLORS for consistency with card badges
 const categoryInactiveMap: Record<string, string> = {
   all: 'border-gray-300 text-gray-700 hover:bg-gray-100',
-  react: 'border-blue-300 text-blue-700 hover:bg-blue-50',
-  '3d': 'border-purple-300 text-purple-700 hover:bg-purple-50',
-  vue: 'border-emerald-300 text-emerald-700 hover:bg-emerald-50',
-  cli: 'border-amber-300 text-amber-700 hover:bg-amber-50',
-  llm: 'border-pink-300 text-pink-700 hover:bg-pink-50',
+  react: `border-blue-300 ${CATEGORY_LIGHT_COLORS['react']} hover:bg-blue-100`,
+  '3d': `border-purple-300 ${CATEGORY_LIGHT_COLORS['3d']} hover:bg-purple-100`,
+  vue: `border-emerald-300 ${CATEGORY_LIGHT_COLORS['vue']} hover:bg-emerald-100`,
+  cli: `border-amber-300 ${CATEGORY_LIGHT_COLORS['cli']} hover:bg-amber-100`,
+  llm: `border-pink-300 ${CATEGORY_LIGHT_COLORS['llm']} hover:bg-pink-100`,
 };
 ---
 
 <div class="overflow-x-auto hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-  <div class="flex gap-2 sm:flex-wrap" id="category-filter">
+  <div class="flex gap-2 sm:flex-wrap" role="group" aria-label={isZh ? '类别筛选' : 'Category filter'} id="category-filter">
     {categories.map((category) => (
       <button
         data-category={category.id}
-        data-active-classes={categoryColorMap[category.id]}
+        data-active-classes={categoryActiveMap[category.id]}
         data-inactive-classes={categoryInactiveMap[category.id]}
+        aria-pressed={category.id === 'all' ? 'true' : 'false'}
         class:list={[
-          'flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 whitespace-nowrap',
+          'flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-all duration-200 whitespace-nowrap min-h-[44px]',
           category.id === 'all'
-            ? categoryColorMap[category.id] + ' border-transparent'
+            ? categoryActiveMap[category.id] + ' border-transparent'
             : 'border-transparent ' + categoryInactiveMap[category.id],
         ]}
       >
@@ -53,6 +56,7 @@ const categoryInactiveMap: Record<string, string> = {
 <script>
   import { createElement, icons } from 'lucide';
 
+  // Map lowercase icon names (from CATEGORY_ICONS) to PascalCase lucide icon keys
   const iconNameMap: Record<string, string> = {
     atom: 'Atom',
     box: 'Box',
@@ -77,6 +81,7 @@ const categoryInactiveMap: Record<string, string> = {
   // Category filter logic
   const filter = document.getElementById('category-filter');
   const cards = document.querySelectorAll('[data-template-category]');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   filter?.addEventListener('click', (e) => {
     const button = (e.target as HTMLElement).closest('button');
@@ -86,7 +91,7 @@ const categoryInactiveMap: Record<string, string> = {
     const activeClasses = button.dataset.activeClasses || '';
     const inactiveClasses = button.dataset.inactiveClasses || '';
 
-    // Update active button styles
+    // Update active button styles and ARIA state
     filter.querySelectorAll('button').forEach((btn) => {
       const btnActive = btn.dataset.activeClasses || '';
       const btnInactive = btn.dataset.inactiveClasses || '';
@@ -94,26 +99,47 @@ const categoryInactiveMap: Record<string, string> = {
       btnInactive.split(' ').forEach((c) => { if (c) btn.classList.add(c); });
       btn.classList.remove('border-transparent');
       btn.classList.add('border-transparent');
+      btn.setAttribute('aria-pressed', 'false');
     });
 
     activeClasses.split(' ').forEach((c) => { if (c) button.classList.add(c); });
     inactiveClasses.split(' ').forEach((c) => { if (c) button.classList.remove(c); });
+    button.setAttribute('aria-pressed', 'true');
 
-    // Filter cards with animation
+    // Filter cards
     cards.forEach((card) => {
       const cardCategory = (card as HTMLElement).dataset.templateCategory;
+      const el = card as HTMLElement;
       if (category === 'all' || cardCategory === category) {
-        (card as HTMLElement).style.display = '';
-        (card as HTMLElement).style.opacity = '0';
-        requestAnimationFrame(() => {
-          (card as HTMLElement).style.transition = 'opacity 0.3s ease';
-          (card as HTMLElement).style.opacity = '1';
-        });
+        if (prefersReducedMotion) {
+          el.style.display = '';
+        } else {
+          el.style.display = '';
+          el.style.opacity = '0';
+          requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.3s ease';
+            el.style.opacity = '1';
+          });
+        }
       } else {
-        (card as HTMLElement).style.opacity = '0';
-        setTimeout(() => {
-          (card as HTMLElement).style.display = 'none';
-        }, 300);
+        if (prefersReducedMotion) {
+          el.style.display = 'none';
+        } else {
+          el.style.opacity = '0';
+          const handler = () => {
+            el.style.display = 'none';
+            el.style.opacity = '';
+            el.style.transition = '';
+            el.removeEventListener('transitionend', handler);
+          };
+          el.addEventListener('transitionend', handler);
+          // Fallback if transitionend doesn't fire (e.g., opacity already 0)
+          setTimeout(() => {
+            if (el.style.opacity === '0') {
+              handler();
+            }
+          }, 350);
+        }
       }
     });
   });
