@@ -28,7 +28,7 @@ const imageURL = new URL(image, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}/favicon.png`} />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph -->
@@ -51,7 +51,7 @@ const imageURL = new URL(image, Astro.site);
       "@type": "Organization",
       "name": "Trapar Waves",
       "url": Astro.site,
-      "logo": new URL(`${import.meta.env.BASE_URL}/favicon.svg`, Astro.site),
+      "logo": new URL(`${import.meta.env.BASE_URL}/favicon.png`, Astro.site),
       "description": description,
     })} />
 
