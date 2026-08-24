@@ -27,7 +27,7 @@ jobs:
           node-version: '26.7.0'
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v6
         with:
           version: 11.23.0
 
