@@ -3,4 +3,5 @@ packages:
 allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
-  - astro@7.2.1
+  - astro@7.2.1 || 7.2.9
+  - lucide@1.35.0
