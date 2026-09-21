@@ -27,7 +27,7 @@ importers:
         specifier: ^7.3.3
         version: 7.3.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@24.13.6)(jiti@2.7.0)
       lucide:
-        specifier: ^1.46.0
+        specifier: ^1.47.0
         version: 1.47.0
       tailwindcss:
         specifier: ^4.3.3
