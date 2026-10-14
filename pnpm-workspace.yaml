@@ -6,3 +6,4 @@ minimumReleaseAgeExclude:
   - astro@7.2.1 || 7.2.9
   - lucide@1.35.0
   - lucide@1.49.0
+  - lucide@1.57.0
